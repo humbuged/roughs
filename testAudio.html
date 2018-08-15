@@ -191,22 +191,34 @@ p.nominalBounds = new cjs.Rectangle(-27.1,-10.9,54.3,20.9);
 		function handleProgress(event) {
 			console.log("Event Loading: " + (queue.progress.toFixed(2) * 100) + "%");
 		}
+		// Detect Page Visibility
+		function handleVisibilityChange() {
+			if (document.hidden) {
+				soundLoop.paused = true;
+			} else {
+				if (soundLoop.paused == true) {
+					soundLoop.play();
+				}
+			}
+		}
+		document.addEventListener("visibilitychange", handleVisibilityChange, false);
 		playSound = function (name) {
 			return createjs.Sound.play(name);
 		}
 		stopSound = function (name) {
 			return createjs.Sound.stop(name);
 		}
-		playSoundLoop = function (name, loops) {
-			return createjs.Sound.play(name, {
-				loop: loops
+		var soundLoop;
+		playSoundLoop = function () {
+			return soundLoop = createjs.Sound.play("bgmLoop", {
+				loop: -1
 			});
 		}
 		this.startBtn.cursor = "pointer";
 		this.startBtn.addEventListener("click", startBtnClick.bind(this));
 		function startBtnClick() {
 			this.startBtn.visible = false;
-			playSoundLoop("bgmLoop", -1);
+			playSoundLoop();
 		}
 		// Music btn variable
 		var musicBtnStatus = "on";
@@ -222,7 +234,7 @@ p.nominalBounds = new cjs.Rectangle(-27.1,-10.9,54.3,20.9);
 			} else {
 				musicBtnStatus = "on";
 				this.musicBtn.gotoAndStop("on");
-				playSoundLoop("bgmLoop", -1);﻿
+				playSoundLoop();﻿
 			}
 		}
 		this.hotspotBtn1.addEventListener("click", nipple1BtnClick.bind(this));
