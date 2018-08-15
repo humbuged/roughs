@@ -193,6 +193,13 @@ p.nominalBounds = new cjs.Rectangle(-27.1,-10.9,54.3,20.9);
 		}
 		// Detect Page Visibility
 		function handleVisibilityChange() {
+			if (document.blur) {
+				soundLoop.paused = true;
+			} else if (document.focus) {
+				if (soundLoop.paused == true) {
+					soundLoop.play();
+				}
+			}
 			if (document.hidden) {
 				soundLoop.paused = true;
 			} else {
